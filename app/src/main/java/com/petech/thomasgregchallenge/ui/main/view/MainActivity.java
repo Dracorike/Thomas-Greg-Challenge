@@ -1,8 +1,10 @@
-package com.petech.thomasgregchallenge;
+package com.petech.thomasgregchallenge.ui.main.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.petech.thomasgregchallenge.R;
 
 public class MainActivity extends AppCompatActivity {
 
