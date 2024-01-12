@@ -15,18 +15,6 @@ public class RegisterUserViewModelUtils {
         return birthEighteen.isAfter(birthDate);
     }
 
-    public static boolean validateCPForCNPJ(String document, UserType userType) {
-        if (userType == UserType.CPF) {
-            return AppUtils.VALID_CPF_REGEX.matcher(document).matches();
-        }
-
-        if (userType == UserType.CNPJ) {
-            return AppUtils.VALID_CNPJ_REGEX.matcher(document).matches();
-        }
-
-        return false;
-    }
-
     public static RegisterUserSteps nextStep(RegisterUserSteps registerUserSteps) {
         switch (registerUserSteps) {
             case REGISTER_USER_DATA:

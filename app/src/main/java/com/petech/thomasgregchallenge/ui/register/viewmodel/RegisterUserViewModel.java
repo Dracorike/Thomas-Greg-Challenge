@@ -1,5 +1,6 @@
 package com.petech.thomasgregchallenge.ui.register.viewmodel;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -39,11 +40,15 @@ public class RegisterUserViewModel extends ViewModel {
     }
 
     public void inputUserDocument(String document, UserType userType) {
-        if (!RegisterUserViewModelUtils.validateCPForCNPJ(document, userType)) {
-            registerError.postValue(RegisterUserError.INVALID_CPF_CNPJ);
+        if (userType == UserType.CPF && !AppUtils.VALID_CPF_REGEX.matcher(document).matches()) {
+            registerError.postValue(RegisterUserError.INVALID_CPF);
             return;
         }
 
+        if (userType == UserType.CNPJ && !AppUtils.VALID_CNPJ_REGEX.matcher(document).matches()) {
+            registerError.postValue(RegisterUserError.INVALID_CNPJ);
+            return;
+        }
         model.inputUserDocuments(document, userType);
         registerUserStep.postValue(RegisterUserViewModelUtils.nextStep(registerUserStep.getValue()));
     }
@@ -141,5 +146,17 @@ public class RegisterUserViewModel extends ViewModel {
     protected void onCleared() {
         super.onCleared();
         model.closeDatabase();
+    }
+
+    public LiveData<RegisterUserError> getRegisterError() {
+        return registerError;
+    }
+
+    public LiveData<RegisterUserSteps> getRegisterUserStep() {
+        return registerUserStep;
+    }
+
+    public LiveData<Boolean> getIsLoading() {
+        return isLoading;
     }
 }

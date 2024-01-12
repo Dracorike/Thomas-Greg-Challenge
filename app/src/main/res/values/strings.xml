@@ -23,4 +23,15 @@
     <string name="finish_registration_string">Finalizar Cadastro</string>
     <string name="password_string">Senha</string>
     <string name="confirm_password_hint_string">Confirme sua senha</string>
+    <string name="data_field_error_message">Preencha todos os campos para continuar o registro.</string>
+    <string name="name_must_be_complete_error_message">Escreva seu nome completo.</string>
+    <string name="email_invalid_error_message">O email inserido é inválido.</string>
+    <string name="user_name_already_exists_error_message">Esse nome de usuário já está cadastrado.</string>
+    <string name="unknown_error_message">Houve algum erro desconhecido.</string>
+    <string name="user_under_age_error_message">É preciso ser maior de idade para terminar o cadastro.</string>
+    <string name="invalid_cpf_error_message">O CPF informado é inválido.</string>
+    <string name="invalid_cnpj_error_message">O CNPJ informado é inválido.</string>
+    <string name="invalid_password_error_message">A senha informada não é válida.</string>
+    <string name="password_dont_matches_error_message">As senhas não coincidem.</string>
+    <string name="registration_error_message">Houve algum erro ao tentar te cadastrar.</string>
 </resources>
