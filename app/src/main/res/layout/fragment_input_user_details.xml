@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.register.view.fragments.InputUserDetailsFragment">
+
+    <TextView
+        android:id="@+id/text_user_details_fragment_title"
+        style="@style/TitleText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/title_margin_top"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:text="@string/user_data_details_string"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_layout_address_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="@dimen/default_margin"
+        app:hintEnabled="false"
+        app:layout_constraintBottom_toTopOf="@id/input_layout_birth_date_field"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_user_details_fragment_title"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_text_address_field"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPostalAddress"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@id/input_text_birth_date_field"
+            android:hint="@string/address_string" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_layout_birth_date_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="@dimen/default_margin"
+        app:hintEnabled="false"
+        app:layout_constraintBottom_toTopOf="@id/text_choose_gender_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_layout_address_field">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_text_birth_date_field"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="date"
+            android:imeOptions="actionDone"
+            android:hint="@string/birth_data_string" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/text_choose_gender_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/choose_gender_title_string"
+        android:textSize="@dimen/topic_title_size"
+        app:layout_constraintBottom_toTopOf="@id/radio_group_gender"
+        app:layout_constraintStart_toStartOf="@id/input_layout_birth_date_field"
+        app:layout_constraintTop_toBottomOf="@id/input_layout_birth_date_field" />
+
+    <RadioGroup
+        android:id="@+id/radio_group_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/button_next_fragment_details"
+        app:layout_constraintStart_toStartOf="@id/text_choose_gender_title"
+        app:layout_constraintTop_toBottomOf="@id/text_choose_gender_title">
+
+        <RadioButton
+            android:id="@+id/radio_button_man"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/man_label" />
+
+        <RadioButton
+            android:id="@+id/radio_button_woman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/woman_label" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/button_next_fragment_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:padding="10dp"
+        android:text="@string/next_string"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

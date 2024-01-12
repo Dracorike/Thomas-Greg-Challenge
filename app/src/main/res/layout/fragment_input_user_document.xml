@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.register.view.fragments.InputUserDocumentFragment">
+
+    <TextView
+        android:id="@+id/text_user_document_fragment_title"
+        style="@style/TitleText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:layout_marginTop="@dimen/title_margin_top"
+        android:text="@string/user_document_title_string"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_choose_cpf_cnpj"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/choose_cpf_cnpj_text"
+        android:textSize="@dimen/topic_title_size"
+        app:layout_constraintBottom_toTopOf="@id/radio_group_cpf_cnpj"
+        app:layout_constraintStart_toStartOf="@id/text_user_document_fragment_title"
+        app:layout_constraintTop_toBottomOf="@id/text_user_document_fragment_title"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <RadioGroup
+        android:id="@+id/radio_group_cpf_cnpj"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/input_layout_cpf_cnpj_field"
+        app:layout_constraintStart_toStartOf="@id/text_choose_cpf_cnpj"
+        app:layout_constraintTop_toBottomOf="@id/text_choose_cpf_cnpj">
+
+        <RadioButton
+            android:id="@+id/radio_button_cpf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cpf_string" />
+
+        <RadioButton
+            android:id="@+id/radio_button_cnpj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cnpj_string" />
+    </RadioGroup>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_layout_cpf_cnpj_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="@dimen/default_margin"
+        app:hintEnabled="false"
+        app:layout_constraintBottom_toTopOf="@id/button_next_fragment_documents"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radio_group_cpf_cnpj">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_text_cpf_cnpj_field"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:hint="@string/cpf_cnpj_hint" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/button_next_fragment_documents"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:padding="10dp"
+        android:text="@string/next_string"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

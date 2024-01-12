@@ -1,4 +1,26 @@
 <resources>
     <string name="app_name">Thomas Greg Challenge</string>
     <string name="create_new_user_button_content_description">Create new User Button</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="full_name_string">Nome Completo</string>
+    <string name="nickname_string">Apelido</string>
+    <string name="email_address_string">Endereço de email</string>
+    <string name="next_string">Próximo</string>
+    <string name="address_string">Endereço</string>
+    <string name="birth_data_string">Data de nascimento</string>
+    <string name="choose_gender_title_string">Qual seu gênero?</string>
+    <string name="man_label">Homem</string>
+    <string name="woman_label">Mulher</string>
+    <string name="user_data_details_string">Vamos Conhecer um pouco \nmais você</string>
+    <string name="user_data_fragment_title_string">Vamos começar o cadastro!</string>
+    <string name="user_document_title_string">Agora iremos precisar dos seus documentos.</string>
+    <string name="choose_cpf_cnpj_text">Você é Pessoa Física ou Jurídica?</string>
+    <string name="cpf_string">CPF</string>
+    <string name="cnpj_string">CNPJ</string>
+    <string name="cpf_cnpj_hint">CPF/CNPJ</string>
+    <string name="user_password_title_string">E por fim, vamos precisar de uma senha para sua conta.</string>
+    <string name="finish_registration_string">Finalizar Cadastro</string>
+    <string name="password_string">Senha</string>
+    <string name="confirm_password_hint_string">Confirme sua senha</string>
 </resources>
