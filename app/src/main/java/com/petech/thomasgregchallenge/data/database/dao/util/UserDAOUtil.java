@@ -11,7 +11,7 @@ public class UserDAOUtil {
     public static ContentValues getUserValues(User user) {
         ContentValues values = new ContentValues();
         values.put(User.NAME_TAG, user.getName());
-        values.put(User.NICK_TAG, user.getUserName());
+        values.put(User.USER_NAME_TAG, user.getUserName());
         values.put(User.PASSWORD_TAG, user.getPassword());
         values.put(User.USER_IMAGE_TAG, user.getUserPhoto());
         values.put(User.ADDRESS_TAG, user.getAddress());

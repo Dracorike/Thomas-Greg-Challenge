@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class User {
     public static final String NAME_TAG = "name";
-    public static final String NICK_TAG = "nick_name";
+    public static final String USER_NAME_TAG = "nick_name";
     public static final String PASSWORD_TAG = "password";
     public static final String USER_IMAGE_TAG = "user_image";
     public static final String ADDRESS_TAG = "address";
