@@ -4,4 +4,5 @@
     <dimen name="topic_title_size">18sp</dimen>
     <dimen name="title_margin_top">10dp</dimen>
     <dimen name="text_title_size">20sp</dimen>
+    <dimen name="check_success_dimension">80dp</dimen>
 </resources>

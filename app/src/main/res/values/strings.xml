@@ -35,4 +35,6 @@
     <string name="password_dont_matches_error_message">As senhas não coincidem.</string>
     <string name="registration_error_message">Houve algum erro ao tentar te cadastrar.</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent imperdiet metus id purus condimentum, non mattis enim pulvinar.</string>
+    <string name="warning_box_title_default">Atenção</string>
+    <string name="okay_string">Okay</string>
 </resources>
