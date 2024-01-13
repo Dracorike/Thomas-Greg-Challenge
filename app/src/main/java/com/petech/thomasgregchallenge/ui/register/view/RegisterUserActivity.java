@@ -19,6 +19,7 @@ import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserError;
 import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserSteps;
 import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserViewModel;
 import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserViewModelFactory;
+import com.petech.thomasgregchallenge.utils.AppUtils;
 
 public class RegisterUserActivity extends AppCompatActivity {
     private static final String TAG = "RegisterUserActivity: ";
@@ -134,14 +135,7 @@ public class RegisterUserActivity extends AppCompatActivity {
     }
 
     private void showError(String msg) {
-        WarningBoxAttributes attributes = new WarningBoxAttributes(
-                getString(R.string.warning_box_title_default),
-                msg,
-                getString(R.string.okay_string),
-                null
-        );
-        WarningBox warningBox = WarningBox.newInstance(attributes);
-        warningBox.show(getSupportFragmentManager(), WARNING_TAG);
+        AppUtils.showError(this, msg, WARNING_TAG, getSupportFragmentManager());
     }
 
     private void handleRegisterSteps(RegisterUserSteps userStep) {

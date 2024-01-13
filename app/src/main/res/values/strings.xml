@@ -37,4 +37,10 @@
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent imperdiet metus id purus condimentum, non mattis enim pulvinar.</string>
     <string name="warning_box_title_default">Atenção</string>
     <string name="okay_string">Okay</string>
+    <string name="no_image_selected">Nenhuma imagem foi selecionada</string>
+    <string name="required_field_error_string">Campo obrigatório</string>
+    <string name="name_must_be_complete_error_hint">Escreva o seu nome completo.</string>
+    <string name="user_name_already_exists_error_hint">Esse nome de usuário já existe.</string>
+    <string name="choose_profile_picture_error_message">Escolha uma foto de perfil</string>
+    <string name="choose_a_profile_picture_description">Escolha uma foto de perfil</string>
 </resources>
