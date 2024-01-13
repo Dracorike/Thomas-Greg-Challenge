@@ -69,13 +69,21 @@ public class RegisterUserViewModel extends ViewModel {
 
     public void inputUserPassword(String password, String confirmPassword) {
         isLoading.postValue(true);
-        if (!AppUtils.VALID_PASSWORD.matcher(password).matches()) {
-            registerError.postValue(RegisterUserError.INVALID_PASSWORD);
+        if (RegisterUserViewModelUtils.userPasswordIsNull(password, confirmPassword)) {
+            registerError.postValue(RegisterUserError.USER_PASSWORD_EMPTY);
+            isLoading.postValue(false);
             return;
         }
 
         if (!password.equals(confirmPassword)) {
             registerError.postValue(RegisterUserError.PASSWORD_DONT_MATCHES);
+            isLoading.postValue(false);
+            return;
+        }
+
+        if (!AppUtils.VALID_PASSWORD.matcher(password).matches()) {
+            registerError.postValue(RegisterUserError.INVALID_PASSWORD);
+            isLoading.postValue(false);
             return;
         }
 

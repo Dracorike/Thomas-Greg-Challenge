@@ -17,6 +17,10 @@ public class RegisterUserViewModelUtils {
         return document.isEmpty() || userType == null;
     }
 
+    public static boolean userPasswordIsNull(String password, String confirmPassword) {
+        return password.isEmpty() || confirmPassword.isEmpty();
+    }
+
     public static boolean validateUserAge(LocalDate birthDate) {
         LocalDate birthEighteen = LocalDate.now().minusYears(18);
         return birthEighteen.isAfter(birthDate);
