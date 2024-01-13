@@ -48,6 +48,11 @@ public class RegisterUserViewModel extends ViewModel {
     }
 
     public void inputUserDocument(String document, UserType userType) {
+        if (RegisterUserViewModelUtils.userDocumentIsNull(document, userType)) {
+            registerError.postValue(RegisterUserError.USER_DOCUMENT_EMPTY);
+            return;
+        }
+
         if (userType == UserType.CPF && !AppUtils.VALID_CPF_REGEX.matcher(document).matches()) {
             registerError.postValue(RegisterUserError.INVALID_CPF);
             return;
@@ -57,6 +62,7 @@ public class RegisterUserViewModel extends ViewModel {
             registerError.postValue(RegisterUserError.INVALID_CNPJ);
             return;
         }
+
         model.inputUserDocuments(document, userType);
         registerUserStep.postValue(RegisterUserViewModelUtils.nextStep(registerUserStep.getValue()));
     }

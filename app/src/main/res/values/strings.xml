@@ -44,4 +44,6 @@
     <string name="choose_profile_picture_error_message">Escolha uma foto de perfil</string>
     <string name="choose_a_profile_picture_description">Escolha uma foto de perfil</string>
     <string name="user_under_age_error_hint">Usuário menor de idade</string>
+    <string name="invalid_cpf_error_hint">CPF inválido</string>
+    <string name="invalid_cnpj_error_hint">CNPJ inválido</string>
 </resources>

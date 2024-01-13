@@ -98,6 +98,8 @@ public class RegisterUserActivity extends AppCompatActivity {
 
     private void handleViewModelErrors(RegisterUserError registerUserError) {
         switch (registerUserError) {
+            case USER_DETAILS_EMPTY:
+            case USER_DOCUMENT_EMPTY:
             case DATA_FIELD_EMPTY:
                 showError(getString(R.string.data_field_error_message));
                 break;

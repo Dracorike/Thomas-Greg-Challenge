@@ -1,5 +1,7 @@
 package com.petech.thomasgregchallenge.ui.register.viewmodel;
 
+import com.petech.thomasgregchallenge.data.entities.enums.UserType;
+
 import java.time.LocalDate;
 
 public class RegisterUserViewModelUtils {
@@ -9,6 +11,10 @@ public class RegisterUserViewModelUtils {
 
     public static boolean userDetailsIsNull(String address, LocalDate birthDate, Boolean gender) {
         return address.isEmpty() || birthDate == null || gender == null;
+    }
+
+    public static boolean userDocumentIsNull(String document, UserType userType) {
+        return document.isEmpty() || userType == null;
     }
 
     public static boolean validateUserAge(LocalDate birthDate) {

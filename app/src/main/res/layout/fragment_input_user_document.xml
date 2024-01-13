@@ -70,6 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="number"
+            android:enabled="false"
             android:hint="@string/cpf_cnpj_hint" />
     </com.google.android.material.textfield.TextInputLayout>
 
