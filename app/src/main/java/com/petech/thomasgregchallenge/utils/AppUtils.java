@@ -34,4 +34,8 @@ public class AppUtils {
         warningBox.show(fragmentManager, tag);
     }
 
+    public static String formatDateToParse(String date) {
+        String[] dateSplit = date.split("/");
+        return dateSplit[2] + "-" + dateSplit[1] + "-" + dateSplit[0];
+    }
 }

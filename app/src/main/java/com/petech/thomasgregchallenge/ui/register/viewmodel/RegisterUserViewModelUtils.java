@@ -7,6 +7,10 @@ public class RegisterUserViewModelUtils {
         return photo.isEmpty() || name.isEmpty() || userName.isEmpty() || email.isEmpty();
     }
 
+    public static boolean userDetailsIsNull(String address, LocalDate birthDate, Boolean gender) {
+        return address.isEmpty() || birthDate == null || gender == null;
+    }
+
     public static boolean validateUserAge(LocalDate birthDate) {
         LocalDate birthEighteen = LocalDate.now().minusYears(18);
         return birthEighteen.isAfter(birthDate);

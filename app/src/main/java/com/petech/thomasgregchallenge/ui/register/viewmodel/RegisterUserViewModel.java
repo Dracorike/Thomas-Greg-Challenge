@@ -33,7 +33,11 @@ public class RegisterUserViewModel extends ViewModel {
         }).start();
     }
 
-    public void inputUserDetails(String address, LocalDate birthDate, boolean gender) {
+    public void inputUserDetails(String address, LocalDate birthDate, Boolean gender) {
+        if (RegisterUserViewModelUtils.userDetailsIsNull(address, birthDate, gender)) {
+            registerError.postValue(RegisterUserError.USER_DETAILS_EMPTY);
+            return;
+        }
         if (!RegisterUserViewModelUtils.validateUserAge(birthDate)) {
             registerError.postValue(RegisterUserError.USER_UNDER_AGE);
             return;
