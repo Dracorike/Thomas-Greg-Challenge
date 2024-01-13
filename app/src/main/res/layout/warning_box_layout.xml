@@ -51,6 +51,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             tools:text="Cancel"
+            android:visibility="gone"
+            tools:visibility="visible"
             android:layout_marginTop="@dimen/default_margin"
             android:layout_marginHorizontal="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
