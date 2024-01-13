@@ -1,8 +1,5 @@
 package com.petech.thomasgregchallenge.ui.register.viewmodel;
 
-import com.petech.thomasgregchallenge.data.entities.enums.UserType;
-import com.petech.thomasgregchallenge.utils.AppUtils;
-
 import java.time.LocalDate;
 
 public class RegisterUserViewModelUtils {
@@ -24,18 +21,19 @@ public class RegisterUserViewModelUtils {
             case REGISTER_USER_DOCUMENTS:
                 return RegisterUserSteps.REGISTER_USER_PASSWORD;
             case REGISTER_USER_PASSWORD:
+                return RegisterUserSteps.REGISTER_USER_SUCCESS;
             case REGISTER_USER_SUCCESS:
             default:
-                return RegisterUserSteps.REGISTER_USER_SUCCESS;
-
+                return RegisterUserSteps.EXIT;
         }
     }
 
     public static RegisterUserSteps previousStep(RegisterUserSteps registerUserSteps) {
         switch (registerUserSteps) {
             case REGISTER_USER_DATA:
-            case REGISTER_USER_DETAILS:
             default:
+                return RegisterUserSteps.EXIT;
+            case REGISTER_USER_DETAILS:
                 return RegisterUserSteps.REGISTER_USER_DATA;
             case REGISTER_USER_DOCUMENTS:
                 return RegisterUserSteps.REGISTER_USER_DETAILS;

@@ -36,5 +36,14 @@
         android:id="@+id/inputUserPasswordFragment"
         android:name="com.petech.thomasgregchallenge.ui.register.view.fragments.InputUserPasswordFragment"
         android:label="fragment_input_user_password"
-        tools:layout="@layout/fragment_input_user_password" />
+        tools:layout="@layout/fragment_input_user_password" >
+        <action
+            android:id="@+id/action_inputUserPasswordFragment_to_registrationUserSuccessFragment"
+            app:destination="@id/registrationUserSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationUserSuccessFragment"
+        android:name="com.petech.thomasgregchallenge.ui.register.view.fragments.RegistrationUserSuccessFragment"
+        android:label="fragment_registration_user_success"
+        tools:layout="@layout/fragment_registration_user_success" />
 </navigation>

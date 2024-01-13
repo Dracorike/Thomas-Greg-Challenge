@@ -3,6 +3,7 @@ package com.petech.thomasgregchallenge.ui.register.view;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,13 +13,20 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.petech.thomasgregchallenge.R;
 import com.petech.thomasgregchallenge.application.App;
 import com.petech.thomasgregchallenge.databinding.ActivityRegisterUserBinding;
+import com.petech.thomasgregchallenge.ui.components.warningbox.WarningBox;
+import com.petech.thomasgregchallenge.ui.components.warningbox.WarningBoxAttributes;
 import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserError;
+import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserSteps;
 import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserViewModel;
 import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserViewModelFactory;
 
 public class RegisterUserActivity extends AppCompatActivity {
+    private static final String TAG = "RegisterUserActivity: ";
+    private static final String WARNING_TAG = TAG + "warning-box";
+
     private ActivityRegisterUserBinding binding;
     private RegisterUserViewModel viewModel;
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +35,20 @@ public class RegisterUserActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setupViewModel();
+        setupNavController();
         setupObservables();
+        setupClicks();
     }
 
     private void setupViewModel() {
         RegisterUserViewModelFactory factory = ((App) getApplication()).getRegisterUserViewModel();
         viewModel = new ViewModelProvider(this, factory).get(RegisterUserViewModel.class);
+    }
+
+    private void setupNavController() {
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.register_user_navigation);
+        navController = navHostFragment.getNavController();
     }
 
     private void setupObservables() {
@@ -47,6 +63,29 @@ public class RegisterUserActivity extends AppCompatActivity {
             @Override
             public void onChanged(RegisterUserError registerUserError) {
                 handleViewModelErrors(registerUserError);
+            }
+        });
+
+        viewModel.getRegisterUserStep().observe(this, new Observer<RegisterUserSteps>() {
+            @Override
+            public void onChanged(RegisterUserSteps registerUserSteps) {
+                handleRegisterSteps(registerUserSteps);
+            }
+        });
+    }
+
+    private void setupClicks() {
+        binding.toolbarRegisterUser.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewModel.backNavStack();
+            }
+        });
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                viewModel.backNavStack();
             }
         });
     }
@@ -95,6 +134,36 @@ public class RegisterUserActivity extends AppCompatActivity {
     }
 
     private void showError(String msg) {
+        WarningBoxAttributes attributes = new WarningBoxAttributes(
+                getString(R.string.warning_box_title_default),
+                msg,
+                getString(R.string.okay_string),
+                null
+        );
+        WarningBox warningBox = WarningBox.newInstance(attributes);
+        warningBox.show(getSupportFragmentManager(), WARNING_TAG);
+    }
 
+    private void handleRegisterSteps(RegisterUserSteps userStep) {
+        switch (userStep) {
+            case REGISTER_USER_DATA:
+                navController.navigate(R.id.inputUserDataFragment);
+                break;
+            case REGISTER_USER_DETAILS:
+                navController.navigate(R.id.inputUserDetailsFragment);
+                break;
+            case REGISTER_USER_DOCUMENTS:
+                navController.navigate(R.id.inputUserDocumentFragment);
+                break;
+            case REGISTER_USER_PASSWORD:
+                navController.navigate(R.id.inputUserPasswordFragment);
+                break;
+            case REGISTER_USER_SUCCESS:
+                navController.navigate(R.id.registrationUserSuccessFragment);
+                break;
+            case EXIT:
+                finish();
+                break;
+        }
     }
 }

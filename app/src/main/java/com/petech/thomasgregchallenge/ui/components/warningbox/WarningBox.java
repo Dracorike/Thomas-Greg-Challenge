@@ -38,6 +38,20 @@ public class WarningBox extends DialogFragment {
         return warningBox;
     }
 
+    public static WarningBox newInstance(WarningBoxAttributes attributes) {
+        WarningBox warningBox = new WarningBox(null);
+        Bundle args = new Bundle();
+        args.putString(TITLE_WARNING_TAG, attributes.getTitleBox());
+        args.putString(BODY_WARNING_TAG, attributes.getBodyBox());
+        args.putString(POSITIVE_BUTTON_WARNING_TAG, attributes.getPositiveButton());
+        if (attributes.getNegativeButton() != null) {
+            args.putString(NEGATIVE_BUTTON_WARNING_TAG, attributes.getNegativeButton());
+        }
+
+        warningBox.setArguments(args);
+        return warningBox;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,7 +84,9 @@ public class WarningBox extends DialogFragment {
         binding.warningBoxPositiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                warningBoxClicks.positiveClick();
+                if (warningBoxClicks != null) {
+                    warningBoxClicks.positiveClick();
+                }
                 dismiss();
             }
         });
@@ -78,7 +94,9 @@ public class WarningBox extends DialogFragment {
         binding.warningBoxNegativeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                warningBoxClicks.negativeClick();
+                if (warningBoxClicks != null) {
+                    warningBoxClicks.negativeClick();
+                }
                 dismiss();
             }
         });
