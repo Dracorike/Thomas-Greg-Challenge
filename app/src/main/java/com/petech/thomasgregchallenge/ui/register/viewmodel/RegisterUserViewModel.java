@@ -99,6 +99,10 @@ public class RegisterUserViewModel extends ViewModel {
         }
     }
 
+    public void nextFragment() {
+        registerUserStep.postValue(RegisterUserViewModelUtils.nextStep(registerUserStep.getValue()));
+    }
+
     public String encodeImageToBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
