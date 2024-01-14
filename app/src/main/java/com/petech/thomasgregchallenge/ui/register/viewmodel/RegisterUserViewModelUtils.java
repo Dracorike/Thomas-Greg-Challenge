@@ -6,10 +6,32 @@ import java.time.LocalDate;
 
 public class RegisterUserViewModelUtils {
     public static boolean userDataIsInvalid(String photo, String name, String userName, String email) {
-        return photo.isEmpty() || name.isEmpty() || userName.isEmpty() || email.isEmpty();
+        if (photo != null) {
+            photo = photo.trim();
+        }
+        if (name != null) {
+            name = name.trim();
+        }
+
+        if (userName != null) {
+            userName = userName.trim();
+        }
+
+        if (email != null) {
+            email = email.trim();
+        }
+
+        return photo == null || name == null || userName == null || email == null
+                || photo.isEmpty() || photo.equals(" ") || name.isEmpty() || name.equals(" ")
+                || userName.isEmpty() || userName.equals(" ") || email.isEmpty() || email.equals(" ");
     }
 
     public static boolean userDetailsIsNull(String address, LocalDate birthDate, Boolean gender) {
+        if (address != null) {
+            address = address.trim();
+        }else {
+            return true;
+        }
         return address.isEmpty() || birthDate == null || gender == null;
     }
 

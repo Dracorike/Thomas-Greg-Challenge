@@ -26,6 +26,8 @@
         android:text="@string/choose_cpf_cnpj_text"
         android:textSize="@dimen/topic_title_size"
         app:layout_constraintBottom_toTopOf="@id/radio_group_cpf_cnpj"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@id/text_user_document_fragment_title"
         app:layout_constraintTop_toBottomOf="@id/text_user_document_fragment_title"
         app:layout_constraintVertical_chainStyle="packed" />

@@ -1,6 +1,7 @@
 package com.petech.thomasgregchallenge.ui.register.view.fragments;
 
 import android.os.Bundle;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ public class InputUserDocumentFragment extends Fragment {
     private FragmentInputUserDocumentBinding binding;
     private RegisterUserViewModel viewModel;
     private UserType userType;
+    private TextWatcher cpfMask = null;
+    private TextWatcher cnpjMask = null;
 
     public InputUserDocumentFragment() {
     }
@@ -83,19 +86,30 @@ public class InputUserDocumentFragment extends Fragment {
     }
 
     private void setupInputTextToCPF() {
+        if (userType == UserType.CNPJ && cnpjMask != null) {
+            binding.inputTextCpfCnpjField.removeTextChangedListener(cnpjMask);
+
+            cpfMask = null;
+        }
         userType = UserType.CPF;
+        cpfMask = MaskEditUtil.mask(binding.inputTextCpfCnpjField, MaskEditUtil.FORMAT_CPF);
+
         binding.inputTextCpfCnpjField.setHint(requireActivity().getString(R.string.cpf_string));
-        binding.inputTextCpfCnpjField.addTextChangedListener(
-                MaskEditUtil.mask(binding.inputTextCpfCnpjField, MaskEditUtil.FORMAT_CPF)
-        );
+        binding.inputTextCpfCnpjField.addTextChangedListener(cpfMask);
     }
 
     private void setupInputTextToCNPJ() {
+        if (userType == UserType.CPF && cpfMask != null) {
+            binding.inputTextCpfCnpjField.removeTextChangedListener(cpfMask);
+
+            cnpjMask = null;
+        }
+
         userType = UserType.CNPJ;
+        cnpjMask = MaskEditUtil.mask(binding.inputTextCpfCnpjField, MaskEditUtil.FORMAT_CNPJ);
+
         binding.inputTextCpfCnpjField.setHint(requireActivity().getString(R.string.cnpj_string));
-        binding.inputTextCpfCnpjField.addTextChangedListener(
-                MaskEditUtil.mask(binding.inputTextCpfCnpjField, MaskEditUtil.FORMAT_CNPJ)
-        );
+        binding.inputTextCpfCnpjField.addTextChangedListener(cnpjMask);
     }
 
     private void handleRegisterUserError(RegisterUserError registerUserError) {

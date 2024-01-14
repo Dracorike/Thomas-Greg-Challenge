@@ -36,12 +36,6 @@ public class UserDAOImpl implements UserDAO {
             database = helper.getWritableDatabase();
         } catch (Exception exception) {
             exception.printStackTrace();
-        } finally {
-            try {
-                helper.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -75,6 +69,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> getAllUsers() {
+
         Cursor cursor = database.query(
                 USER_TABLE_NAME,
                 new String[]{"_id", "name", "nick_name", "password", "user_image", "address", "email", "born_date", "gender", "cpfcnpj"},

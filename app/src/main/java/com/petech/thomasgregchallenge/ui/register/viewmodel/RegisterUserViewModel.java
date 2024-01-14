@@ -147,8 +147,7 @@ public class RegisterUserViewModel extends ViewModel {
                     isLoading.postValue(false);
                 }
             }
-        });
-
+        }).start();
     }
 
     private boolean validateInputUserData(String photo, String name, String userName, String email) {
@@ -175,9 +174,7 @@ public class RegisterUserViewModel extends ViewModel {
         return true;
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
+    public void finishViewModel() {
         model.closeDatabase();
     }
 

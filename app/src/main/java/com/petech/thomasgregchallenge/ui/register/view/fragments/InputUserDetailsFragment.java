@@ -20,6 +20,7 @@ import com.petech.thomasgregchallenge.utils.ComponentsUtils;
 import com.petech.thomasgregchallenge.utils.MaskEditUtil;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 
 public class InputUserDetailsFragment extends Fragment {
@@ -46,9 +47,14 @@ public class InputUserDetailsFragment extends Fragment {
         binding.buttonNextFragmentDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LocalDate birthDate = LocalDate.parse(
-                        AppUtils.formatDateToParse(binding.inputTextBirthDateField.getText().toString())
-                );
+                LocalDate birthDate = null;
+                try {
+                    birthDate = LocalDate.parse(
+                            AppUtils.formatDateToParse(binding.inputTextBirthDateField.getText().toString())
+                    );
+                } catch (DateTimeParseException exception) {
+                    exception.printStackTrace();
+                }
 
                 viewModel.inputUserDetails(
                         binding.inputTextAddressField.getText().toString(),

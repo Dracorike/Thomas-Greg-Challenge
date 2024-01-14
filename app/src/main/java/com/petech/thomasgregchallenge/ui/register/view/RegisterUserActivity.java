@@ -11,10 +11,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.petech.thomasgregchallenge.R;
-import com.petech.thomasgregchallenge.application.App;
 import com.petech.thomasgregchallenge.databinding.ActivityRegisterUserBinding;
-import com.petech.thomasgregchallenge.ui.components.warningbox.WarningBox;
-import com.petech.thomasgregchallenge.ui.components.warningbox.WarningBoxAttributes;
 import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserError;
 import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserSteps;
 import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserViewModel;
@@ -42,13 +39,13 @@ public class RegisterUserActivity extends AppCompatActivity {
     }
 
     private void setupViewModel() {
-        RegisterUserViewModelFactory factory = ((App) getApplication()).getRegisterUserViewModel();
+        RegisterUserViewModelFactory factory = AppUtils.getRegisterUserViewModel(getApplicationContext());
         viewModel = new ViewModelProvider(this, factory).get(RegisterUserViewModel.class);
     }
 
     private void setupNavController() {
         NavHostFragment navHostFragment =
-                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.register_user_navigation);
+                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_host);
         navController = navHostFragment.getNavController();
     }
 
