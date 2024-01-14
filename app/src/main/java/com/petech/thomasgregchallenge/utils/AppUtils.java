@@ -11,6 +11,9 @@ import com.petech.thomasgregchallenge.data.datasource.UserRepository;
 import com.petech.thomasgregchallenge.data.datasource.implementation.UserRepositoryImpl;
 import com.petech.thomasgregchallenge.ui.components.warningbox.WarningBox;
 import com.petech.thomasgregchallenge.ui.components.warningbox.WarningBoxAttributes;
+import com.petech.thomasgregchallenge.ui.main.model.MainModel;
+import com.petech.thomasgregchallenge.ui.main.model.implementation.MainModelImpl;
+import com.petech.thomasgregchallenge.ui.main.viewmodel.MainViewModelFactory;
 import com.petech.thomasgregchallenge.ui.register.model.RegisterUserModel;
 import com.petech.thomasgregchallenge.ui.register.model.implementation.RegisterUserModelImpl;
 import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserViewModelFactory;
@@ -37,6 +40,13 @@ public class AppUtils {
         UserRepository userRepository = new UserRepositoryImpl(userDAO);
         RegisterUserModel userModel = new RegisterUserModelImpl(userRepository);
         return new RegisterUserViewModelFactory(userModel);
+    }
+
+    public static MainViewModelFactory getMainViewModel(Context context) {
+        UserDAO userDAO = new UserDAOImpl(context);
+        UserRepository userRepository = new UserRepositoryImpl(userDAO);
+        MainModel mainModel = new MainModelImpl(userRepository);
+        return new MainViewModelFactory(mainModel);
     }
 
     public static void showError(Context context, String msg, String tag, FragmentManager fragmentManager) {
