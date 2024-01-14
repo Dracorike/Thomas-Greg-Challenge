@@ -54,4 +54,6 @@
     <string name="warning_box_delete_user_message">Tem certeza que deseja deletar o usuário?</string>
     <string name="yes_string">Sim</string>
     <string name="no_string">Não</string>
+    <string name="save_update_button_title">Salvar Alterações</string>
+    <string name="change_password">Alterar Senha</string>
 </resources>
