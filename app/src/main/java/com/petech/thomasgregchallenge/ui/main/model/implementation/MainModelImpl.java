@@ -22,4 +22,9 @@ public class MainModelImpl implements MainModel {
     public int deleteUserById(int userId) {
         return userRepository.deleteUser(userId);
     }
+
+    @Override
+    public void closeDatabase() {
+        userRepository.closeDatabase();
+    }
 }

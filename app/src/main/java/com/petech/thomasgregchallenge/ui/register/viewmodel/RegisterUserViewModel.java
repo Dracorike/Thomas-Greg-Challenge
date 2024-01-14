@@ -1,8 +1,5 @@
 package com.petech.thomasgregchallenge.ui.register.viewmodel;
 
-import android.graphics.Bitmap;
-import android.util.Base64;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -11,7 +8,6 @@ import com.petech.thomasgregchallenge.data.entities.enums.UserType;
 import com.petech.thomasgregchallenge.ui.register.model.RegisterUserModel;
 import com.petech.thomasgregchallenge.utils.AppUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 
 public class RegisterUserViewModel extends ViewModel {
@@ -101,13 +97,6 @@ public class RegisterUserViewModel extends ViewModel {
 
     public void nextFragment() {
         registerUserStep.postValue(RegisterUserViewModelUtils.nextStep(registerUserStep.getValue()));
-    }
-
-    public String encodeImageToBase64(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 
     private void storeUserData(String photo, String name, String userName, String email) {

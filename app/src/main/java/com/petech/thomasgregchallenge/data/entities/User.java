@@ -5,6 +5,7 @@ import com.petech.thomasgregchallenge.data.entities.enums.UserType;
 import java.time.LocalDate;
 
 public class User {
+    public static final String ID_TAG = "_id";
     public static final String NAME_TAG = "name";
     public static final String USER_NAME_TAG = "nick_name";
     public static final String PASSWORD_TAG = "password";

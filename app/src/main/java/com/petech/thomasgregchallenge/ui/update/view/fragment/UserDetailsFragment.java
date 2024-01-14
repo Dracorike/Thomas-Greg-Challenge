@@ -1,66 +1,191 @@
 package com.petech.thomasgregchallenge.ui.update.view.fragment;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.petech.thomasgregchallenge.R;
+import com.petech.thomasgregchallenge.data.entities.User;
+import com.petech.thomasgregchallenge.data.entities.enums.UserType;
+import com.petech.thomasgregchallenge.databinding.FragmentUserDetailsBinding;
+import com.petech.thomasgregchallenge.ui.update.viewmodel.UserDetailsViewModel;
+import com.petech.thomasgregchallenge.utils.AppUtils;
+import com.petech.thomasgregchallenge.utils.ComponentsUtils;
+import com.petech.thomasgregchallenge.utils.MaskEditUtil;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link UserDetailsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 public class UserDetailsFragment extends Fragment {
+    private User selectedUser;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentUserDetailsBinding binding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
+    private UserDetailsViewModel viewModel;
+    private UserType userType;
+    private String imagePath;
+    private TextWatcher cpfMask;
+    private TextWatcher cnpjMask;
 
     public UserDetailsFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UserDetailsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static UserDetailsFragment newInstance(String param1, String param2) {
-        UserDetailsFragment fragment = new UserDetailsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentUserDetailsBinding.inflate(inflater, container, false);
+        viewModel = new ViewModelProvider(requireActivity()).get(UserDetailsViewModel.class);
+
+        selectedUser = viewModel.getSelectedUser();
+        imagePath = selectedUser.getUserPhoto();
+        userType = selectedUser.getUserType();
+        cpfMask = MaskEditUtil.mask(binding.inputTextCpfCnpjUpdate, MaskEditUtil.FORMAT_CPF);
+        cnpjMask = MaskEditUtil.mask(binding.inputTextCpfCnpjUpdate, MaskEditUtil.FORMAT_CNPJ);
+
+        setupPickImage();
+        setupInputFields();
+        setupClicks();
+        populateFields();
+
+        return binding.getRoot();
+    }
+
+    private void setupPickImage() {
+        pickMedia = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+            if (uri != null) {
+                handlePickedImage(uri);
+            } else {
+                Log.d("PhotoPicker", "No media selected");
+            }
+        });
+    }
+
+    private void setupInputFields() {
+        ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextFullNameUpdate);
+        ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextNicknameUpdate);
+        ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextEmailUpdate);
+        ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextBirthDateUpdate);
+        ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextAddressUpdate);
+        ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextCpfCnpjUpdate);
+    }
+
+    private void setupClicks() {
+        binding.imageViewUserProfileUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickMedia.launch(new PickVisualMediaRequest.Builder()
+                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                        .build());
+            }
+        });
+        binding.radioGroupCpfCnpjUpdate.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.radio_button_cpf) {
+                    setupInputTextToCPF();
+                }
+
+                if (checkedId == R.id.radio_button_cnpj) {
+                    setupInputTextToCNPJ();
+                }
+            }
+        });
+    }
+
+    private void populateFields() {
+        if (checkReadFilesPermission()) {
+            Uri imageUri = Uri.parse(selectedUser.getUserPhoto());
+            try {
+                InputStream inputStream = requireActivity().getContentResolver().openInputStream(imageUri);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+                binding.imageViewUserProfileUpdate.setImageBitmap(bitmap);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        binding.inputTextFullNameUpdate.setText(selectedUser.getName());
+        binding.inputTextNicknameUpdate.setText(selectedUser.getUserName());
+        binding.inputTextEmailUpdate.setText(selectedUser.getEmail());
+        binding.inputTextAddressUpdate.setText(selectedUser.getAddress());
+        binding.inputTextBirthDateUpdate.setText(AppUtils.formateLocalDateToString(selectedUser.getBirthDate()));
+
+        if (selectedUser.isGender()) {
+            binding.radioOptionManUpdate.toggle();
+        } else {
+            binding.radioOptionWomanUpdate.toggle();
+        }
+
+        Log.i("TAG", "Selected user type: " + selectedUser.getUserType().toString());
+        switch (selectedUser.getUserType()) {
+            case CPF:
+                binding.radioOptionCpfUpdate.toggle();
+                break;
+            case CNPJ:
+                binding.radioOptionCnpjUpdate.toggle();
+                break;
+        }
+
+        binding.inputTextCpfCnpjUpdate.setText(selectedUser.getDocumentNumber());
+    }
+
+    private void setupInputTextToCPF() {
+        if (userType == UserType.CNPJ && cnpjMask != null) {
+            binding.inputTextCpfCnpjUpdate.removeTextChangedListener(cnpjMask);
+
+            cpfMask = null;
+        }
+        userType = UserType.CPF;
+        cpfMask = MaskEditUtil.mask(binding.inputTextCpfCnpjUpdate, MaskEditUtil.FORMAT_CPF);
+
+        binding.inputTextCpfCnpjUpdate.setHint(requireActivity().getString(R.string.cpf_string));
+        binding.inputTextCpfCnpjUpdate.addTextChangedListener(cpfMask);
+    }
+
+    private void setupInputTextToCNPJ() {
+        if (userType == UserType.CPF && cpfMask != null) {
+            binding.inputTextCpfCnpjUpdate.removeTextChangedListener(cpfMask);
+
+            cnpjMask = null;
+        }
+
+        userType = UserType.CNPJ;
+        cnpjMask = MaskEditUtil.mask(binding.inputTextCpfCnpjUpdate, MaskEditUtil.FORMAT_CNPJ);
+
+        binding.inputTextCpfCnpjUpdate.setHint(requireActivity().getString(R.string.cnpj_string));
+        binding.inputTextCpfCnpjUpdate.addTextChangedListener(cnpjMask);
+    }
+
+    private void handlePickedImage(Uri selectedImageUri) {
+        if (selectedImageUri != null) {
+            imagePath = selectedImageUri.toString();
+            binding.imageViewUserProfileUpdate.setImageURI(selectedImageUri);
+        } else {
+            Toast.makeText(getContext(), getString(R.string.no_image_selected), Toast.LENGTH_LONG).show();
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_details, container, false);
+    private boolean checkReadFilesPermission() {
+        int result = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
+        return result == PackageManager.PERMISSION_GRANTED;
     }
 }

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.petech.thomasgregchallenge.data.entities.User;
 import com.petech.thomasgregchallenge.databinding.UserListHolderLayoutBinding;
-import com.petech.thomasgregchallenge.ui.components.userlist.click.UserListClickDelete;
+import com.petech.thomasgregchallenge.ui.components.userlist.click.UserListClicks;
 
 public class UserListHolder extends RecyclerView.ViewHolder {
     private final UserListHolderLayoutBinding binding;
@@ -22,11 +22,18 @@ public class UserListHolder extends RecyclerView.ViewHolder {
         binding.textUserNickName.setText(user.getUserName());
     }
 
-    public void setClickDelete(UserListClickDelete userListClickDelete, User user) {
+    public void setClickDelete(UserListClicks userListClicks, User user) {
         binding.buttonDeleteUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userListClickDelete.onClickDelete(user.get_id());
+                userListClicks.onClickDelete(user.get_id());
+            }
+        });
+
+        binding.userListHolderCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userListClicks.onCardClick(user.get_id());
             }
         });
     }

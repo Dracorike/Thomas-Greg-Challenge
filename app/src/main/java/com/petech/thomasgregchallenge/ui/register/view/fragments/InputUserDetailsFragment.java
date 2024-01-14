@@ -82,12 +82,8 @@ public class InputUserDetailsFragment extends Fragment {
         binding.inputTextBirthDateField.addTextChangedListener(
                 MaskEditUtil.mask(binding.inputTextBirthDateField, MaskEditUtil.FORMAT_DATE)
         );
-        binding.inputTextBirthDateField.addTextChangedListener(
-                ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextBirthDateField)
-        );
-        binding.inputTextAddressField.addTextChangedListener(
-                ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextAddressField)
-        );
+        ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextBirthDateField);
+        ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextAddressField);
     }
 
     private void setupObservables() {

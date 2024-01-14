@@ -1,6 +1,8 @@
 package com.petech.thomasgregchallenge.ui.main.view;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,7 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,13 +22,14 @@ import com.petech.thomasgregchallenge.R;
 import com.petech.thomasgregchallenge.data.entities.User;
 import com.petech.thomasgregchallenge.databinding.ActivityMainBinding;
 import com.petech.thomasgregchallenge.ui.components.userlist.UserListAdapter;
-import com.petech.thomasgregchallenge.ui.components.userlist.click.UserListClickDelete;
+import com.petech.thomasgregchallenge.ui.components.userlist.click.UserListClicks;
 import com.petech.thomasgregchallenge.ui.components.warningbox.WarningBox;
 import com.petech.thomasgregchallenge.ui.components.warningbox.WarningBoxAttributes;
 import com.petech.thomasgregchallenge.ui.components.warningbox.WarningBoxClicks;
 import com.petech.thomasgregchallenge.ui.main.viewmodel.MainViewModel;
 import com.petech.thomasgregchallenge.ui.main.viewmodel.MainViewModelFactory;
 import com.petech.thomasgregchallenge.ui.register.view.RegisterUserActivity;
+import com.petech.thomasgregchallenge.ui.update.view.UserDetailsActivity;
 import com.petech.thomasgregchallenge.utils.AppUtils;
 
 import java.util.ArrayList;
@@ -34,6 +40,7 @@ import java.util.stream.Collectors;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity: ";
     private static final String WARNING_TAG = TAG + "warning-delete-user";
+    private static final int READ_FILES_PERMISSION_REQUEST = 123;
 
     private List<User> userList = new ArrayList<>();
     private List<User> userListFilter = new ArrayList<>();
@@ -48,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         userListAdapter = new UserListAdapter(userListFilter, deleteClick());
 
+        requestAndroidPermissions();
         setupViewModel();
         setupButtons();
         setupObservables();
@@ -153,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
         userListAdapter.notifyDataSetChanged();
     }
 
-    private UserListClickDelete deleteClick() {
-        return new UserListClickDelete() {
+    private UserListClicks deleteClick() {
+        return new UserListClicks() {
             @Override
             public void onClickDelete(int id) {
                 WarningBox warningBox = WarningBox.newInstance(
@@ -168,6 +176,11 @@ public class MainActivity extends AppCompatActivity {
                 );
 
                 warningBox.show(getSupportFragmentManager(), WARNING_TAG);
+            }
+
+            @Override
+            public void onCardClick(int id) {
+                startActivity(UserDetailsActivity.newInstance(getApplicationContext(), id));
             }
         };
     }
@@ -184,5 +197,39 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
+    }
+
+    private void requestAndroidPermissions() {
+        if (!checkPermission()) {
+            requestPermission();
+
+        }
+    }
+
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                READ_FILES_PERMISSION_REQUEST
+        );
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == READ_FILES_PERMISSION_REQUEST) {
+            if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(
+                        getApplicationContext(),
+                        "O aplicativo não poderá mostrar nenhuma imagem.",
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+        }
     }
 }

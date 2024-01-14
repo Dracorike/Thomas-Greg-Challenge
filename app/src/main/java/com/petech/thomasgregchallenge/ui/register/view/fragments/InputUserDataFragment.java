@@ -1,7 +1,5 @@
 package com.petech.thomasgregchallenge.ui.register.view.fragments;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,9 +23,6 @@ import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserViewMode
 import com.petech.thomasgregchallenge.utils.AppUtils;
 import com.petech.thomasgregchallenge.utils.ComponentsUtils;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 
 public class InputUserDataFragment extends Fragment {
     private static final String TAG = "InputUserDataFragment: ";
@@ -35,7 +30,7 @@ public class InputUserDataFragment extends Fragment {
     private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
     private FragmentInputUserDataBinding binding;
     private RegisterUserViewModel viewModel;
-    private String imageBase64;
+    private String imagePath;
 
     public InputUserDataFragment() {
     }
@@ -67,7 +62,7 @@ public class InputUserDataFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 viewModel.inputUserData(
-                        imageBase64,
+                        imagePath,
                         binding.inputTextFullNameField.getText().toString(),
                         binding.inputTextNicknameField.getText().toString(),
                         binding.inputTextEmailAddressField.getText().toString()
@@ -77,15 +72,9 @@ public class InputUserDataFragment extends Fragment {
     }
 
     private void setupTextFields() {
-        binding.inputTextFullNameField.addTextChangedListener(
-                ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextFullNameField)
-        );
-        binding.inputTextNicknameField.addTextChangedListener(
-                ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextNicknameField)
-        );
-        binding.inputTextEmailAddressField.addTextChangedListener(
-                ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextEmailAddressField)
-        );
+        ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextFullNameField);
+        ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextNicknameField);
+        ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextEmailAddressField);
     }
 
     private void setupPickImage() {
@@ -108,13 +97,11 @@ public class InputUserDataFragment extends Fragment {
     }
 
     private void handlePickedImage(Uri selectedImageUri) {
-        try {
-            InputStream inputStream = getActivity().getContentResolver().openInputStream(selectedImageUri);
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            imageBase64 = viewModel.encodeImageToBase64(bitmap);
-
-            binding.imageUserPhotoPicker.setImageBitmap(bitmap);
-        } catch (FileNotFoundException exception) {
+        if (selectedImageUri != null) {
+            imagePath = selectedImageUri.toString();
+            Log.i(TAG, imagePath);
+            binding.imageUserPhotoPicker.setImageURI(selectedImageUri);
+        } else {
             Toast.makeText(getContext(), getString(R.string.no_image_selected), Toast.LENGTH_LONG).show();
         }
     }
@@ -150,7 +137,7 @@ public class InputUserDataFragment extends Fragment {
                 getString(R.string.required_field_error_string)
         );
 
-        if (imageBase64 == null) {
+        if (imagePath == null) {
             AppUtils.showError(
                     requireActivity(),
                     getString(R.string.choose_profile_picture_error_message),
