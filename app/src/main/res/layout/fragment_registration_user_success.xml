@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.register.view.fragments.RegistrationUserSuccessFragment">
+
+    <TextView
+        android:id="@+id/text_success"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SUCESSO!"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/text_description_success_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/text_description_success_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="O seu cadastro foi realizado com sucesso!"
+        app:layout_constraintBottom_toTopOf="@+id/button_conclude_registration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_success" />
+
+    <ImageView
+        android:id="@+id/image_sucess_check"
+        android:layout_width="@dimen/check_success_dimension"
+        android:layout_height="@dimen/check_success_dimension"
+        android:layout_marginTop="@dimen/default_margin"
+        android:src="@drawable/ic_blue_check"
+        app:layout_constraintBottom_toTopOf="@+id/button_conclude_registration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_description_success_fragment"
+        app:layout_constraintVertical_bias="0" />
+
+    <Button
+        android:id="@+id/button_conclude_registration"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:text="Finalizar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

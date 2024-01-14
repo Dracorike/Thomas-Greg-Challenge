@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/register_user_navigation"
+    app:startDestination="@id/inputUserDataFragment">
+
+    <fragment
+        android:id="@+id/inputUserDataFragment"
+        android:name="com.petech.thomasgregchallenge.ui.register.view.fragments.InputUserDataFragment"
+        android:label="fragment_input_user_data"
+        tools:layout="@layout/fragment_input_user_data" >
+        <action
+            android:id="@+id/action_inputUserDataFragment_to_inputUserDetailsFragment"
+            app:destination="@id/inputUserDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inputUserDetailsFragment"
+        android:name="com.petech.thomasgregchallenge.ui.register.view.fragments.InputUserDetailsFragment"
+        android:label="fragment_input_user_details"
+        tools:layout="@layout/fragment_input_user_details" >
+        <action
+            android:id="@+id/action_inputUserDetailsFragment_to_inputUserDocumentFragment"
+            app:destination="@id/inputUserDocumentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inputUserDocumentFragment"
+        android:name="com.petech.thomasgregchallenge.ui.register.view.fragments.InputUserDocumentFragment"
+        android:label="fragment_input_user_document"
+        tools:layout="@layout/fragment_input_user_document" >
+        <action
+            android:id="@+id/action_inputUserDocumentFragment_to_inputUserPasswordFragment"
+            app:destination="@id/inputUserPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inputUserPasswordFragment"
+        android:name="com.petech.thomasgregchallenge.ui.register.view.fragments.InputUserPasswordFragment"
+        android:label="fragment_input_user_password"
+        tools:layout="@layout/fragment_input_user_password" >
+        <action
+            android:id="@+id/action_inputUserPasswordFragment_to_registrationUserSuccessFragment"
+            app:destination="@id/registrationUserSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationUserSuccessFragment"
+        android:name="com.petech.thomasgregchallenge.ui.register.view.fragments.RegistrationUserSuccessFragment"
+        android:label="fragment_registration_user_success"
+        tools:layout="@layout/fragment_registration_user_success" />
+</navigation>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".ui.register.view.fragments.InputUserDataFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/text_user_data_fragment_title"
+            style="@style/TitleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/default_margin"
+            android:layout_marginTop="@dimen/title_margin_top"
+            android:text="@string/user_data_fragment_title_string"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image_user_photo_picker"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            android:contentDescription="@string/choose_a_profile_picture_description"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_user_avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_user_data_fragment_title"
+            app:layout_constraintVertical_chainStyle="spread" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_full_name_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintBottom_toTopOf="@id/input_layout_nickname_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_user_photo_picker"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_text_full_name_field"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/full_name_string"
+                android:imeOptions="actionGo"
+                android:maxLines="1"
+                android:inputType="text"
+                android:nextFocusDown="@id/input_text_nickname_field" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_nickname_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintBottom_toTopOf="@id/input_layout_email_address_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_layout_full_name_field">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_text_nickname_field"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/nickname_string"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1"
+                android:nextFocusDown="@id/input_text_email_address_field" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_email_address_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintBottom_toTopOf="@id/button_next_fragment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_layout_nickname_field">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_text_email_address_field"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/email_address_string"
+                android:imeOptions="actionDone"
+                android:inputType="textEmailAddress"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/button_next_fragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:padding="10dp"
+            android:text="@string/next_string"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
