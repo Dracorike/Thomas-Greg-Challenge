@@ -4,17 +4,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.petech.thomasgregchallenge.R;
 import com.petech.thomasgregchallenge.data.entities.User;
 import com.petech.thomasgregchallenge.databinding.ActivityMainBinding;
 import com.petech.thomasgregchallenge.ui.components.userlist.UserListAdapter;
 import com.petech.thomasgregchallenge.ui.components.userlist.click.UserListClickDelete;
+import com.petech.thomasgregchallenge.ui.components.warningbox.WarningBox;
+import com.petech.thomasgregchallenge.ui.components.warningbox.WarningBoxAttributes;
+import com.petech.thomasgregchallenge.ui.components.warningbox.WarningBoxClicks;
 import com.petech.thomasgregchallenge.ui.main.viewmodel.MainViewModel;
 import com.petech.thomasgregchallenge.ui.main.viewmodel.MainViewModelFactory;
 import com.petech.thomasgregchallenge.ui.register.view.RegisterUserActivity;
@@ -26,6 +32,9 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity: ";
+    private static final String WARNING_TAG = TAG + "warning-delete-user";
+
     private List<User> userList = new ArrayList<>();
     private List<User> userListFilter = new ArrayList<>();
     private UserListAdapter userListAdapter;
@@ -45,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
         setupRecyclerView();
         setupQueryUser();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG, "OnResume");
         mainViewModel.getUsersListFromDatabase();
     }
 
@@ -97,9 +112,25 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel.getUserList().observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
+                Log.i(TAG, "usuários: " + users.toString());
+
                 userList.clear();
                 userList.addAll(users);
                 populateUsersList(userList);
+            }
+        });
+        mainViewModel.getDeleteSuccess().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isDeleteSuccess) {
+                if (!isDeleteSuccess) {
+                    Toast.makeText(
+                            getApplicationContext(),
+                            getString(R.string.delete_user_error_msg),
+                            Toast.LENGTH_LONG
+                    ).show();
+                }
+
+                binding.inputTextSearchUser.setText(null);
             }
         });
     }
@@ -127,6 +158,30 @@ public class MainActivity extends AppCompatActivity {
         return new UserListClickDelete() {
             @Override
             public void onClickDelete(int id) {
+                WarningBox warningBox = WarningBox.newInstance(
+                        warningBoxClicks(id),
+                        new WarningBoxAttributes(
+                                getString(R.string.warning_box_title_default),
+                                getString(R.string.warning_box_delete_user_message),
+                                getString(R.string.yes_string),
+                                getString(R.string.no_string)
+                        )
+                );
+
+                warningBox.show(getSupportFragmentManager(), WARNING_TAG);
+            }
+        };
+    }
+
+    private WarningBoxClicks warningBoxClicks(int userId) {
+        return new WarningBoxClicks() {
+            @Override
+            public void positiveClick() {
+                mainViewModel.deleteUser(userId);
+            }
+
+            @Override
+            public void negativeClick() {
 
             }
         };

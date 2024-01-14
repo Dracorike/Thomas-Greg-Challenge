@@ -17,4 +17,9 @@ public class MainModelImpl implements MainModel {
     public List<User> getAllUsers() {
         return userRepository.getAllUsers();
     }
+
+    @Override
+    public int deleteUserById(int userId) {
+        return userRepository.deleteUser(userId);
+    }
 }

@@ -1,5 +1,7 @@
 package com.petech.thomasgregchallenge.ui.register.model.implementation;
 
+import android.util.Log;
+
 import com.petech.thomasgregchallenge.data.datasource.UserRepository;
 import com.petech.thomasgregchallenge.data.entities.User;
 import com.petech.thomasgregchallenge.data.entities.enums.UserType;
@@ -44,6 +46,7 @@ public class RegisterUserModelImpl implements RegisterUserModel {
 
     @Override
     public boolean finishRegistration() {
+        Log.i("RegisterUserModel: ", "Novo registro: " + newRegistration.build().toString());
         long newId = userRepository.createUser(newRegistration.build());
         return newId != -1;
     }

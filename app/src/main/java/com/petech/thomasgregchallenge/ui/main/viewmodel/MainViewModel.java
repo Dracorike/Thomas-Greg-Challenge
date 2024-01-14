@@ -11,6 +11,7 @@ import java.util.List;
 
 public class MainViewModel extends ViewModel {
     private MutableLiveData<List<User>> userList = new MutableLiveData<>();
+    private MutableLiveData<Boolean> deleteSuccess = new MutableLiveData<>();
 
     private final MainModel mainModel;
 
@@ -32,7 +33,30 @@ public class MainViewModel extends ViewModel {
         }).start();
     }
 
+
+    public void deleteUser(int userId) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    int rowsDeleted = mainModel.deleteUserById(userId);
+
+                    deleteSuccess.postValue(rowsDeleted != 0);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                    deleteSuccess.postValue(false);
+                } finally {
+                    getUsersListFromDatabase();
+                }
+            }
+        }).start();
+    }
+
     public LiveData<List<User>> getUserList() {
         return userList;
+    }
+
+    public LiveData<Boolean> getDeleteSuccess() {
+        return deleteSuccess;
     }
 }

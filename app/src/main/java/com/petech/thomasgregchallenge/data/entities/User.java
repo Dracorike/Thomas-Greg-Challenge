@@ -15,6 +15,22 @@ public class User {
     public static final String GENDER_TAG = "gender";
     public static final String CPF_CNJP_TAG = "cpfcnpj";
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", userPhoto='" + userPhoto + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", birthDate=" + birthDate +
+                ", gender=" + gender +
+                ", userType=" + userType +
+                ", documentNumber='" + documentNumber + '\'' +
+                '}';
+    }
+
     private int _id;
     private String name;
     private String userName;

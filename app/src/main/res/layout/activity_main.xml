@@ -19,11 +19,13 @@
         android:id="@+id/input_layout_search_user"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:hint="Procurar usuário"
         android:layout_marginHorizontal="@dimen/minus_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/main_toolbar"
-        app:startIconDrawable="@drawable/ic_search">
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_search">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_text_search_user"

@@ -50,4 +50,8 @@
     <string name="invalid_password_error_hint">Senha inválida</string>
     <string name="delete_user_button_string">Excluir usuário</string>
     <string name="no_users_message">Não foi encontrado nenhum usuário.</string>
+    <string name="delete_user_error_msg">Houve algum problema ao deletar o usuário.</string>
+    <string name="warning_box_delete_user_message">Tem certeza que deseja deletar o usuário?</string>
+    <string name="yes_string">Sim</string>
+    <string name="no_string">Não</string>
 </resources>

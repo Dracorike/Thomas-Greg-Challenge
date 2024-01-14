@@ -1,5 +1,7 @@
 package com.petech.thomasgregchallenge.data.datasource.implementation;
 
+import android.util.Log;
+
 import com.petech.thomasgregchallenge.data.database.dao.UserDAO;
 import com.petech.thomasgregchallenge.data.datasource.UserRepository;
 import com.petech.thomasgregchallenge.data.entities.User;
@@ -15,12 +17,17 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> getAllUsers() {
-        return userDAO.getAllUsers();
+        List<User> users = userDAO.getAllUsers();
+        Log.i("TAG", "usuários: " + users);
+        return users;
     }
 
     @Override
     public long createUser(User user) {
-        return userDAO.createUser(user);
+        long newId = userDAO.createUser(user);
+        Log.i("TAG", "Novo id: " + newId);
+
+        return newId;
     }
 
     @Override
@@ -30,7 +37,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public int deleteUser(int userId) {
-        return userDAO.deleteUser(userId);
+        int deletedId = userDAO.deleteUser(userId);
+        Log.i("TAG", "Id DEletado: " + deletedId);
+        return deletedId;
     }
 
     @Override
