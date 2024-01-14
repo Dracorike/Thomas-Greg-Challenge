@@ -18,15 +18,12 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<User> getAllUsers() {
         List<User> users = userDAO.getAllUsers();
-        Log.i("TAG", "usuários: " + users);
         return users;
     }
 
     @Override
     public long createUser(User user) {
         long newId = userDAO.createUser(user);
-        Log.i("TAG", "Novo id: " + newId);
-
         return newId;
     }
 
@@ -38,7 +35,6 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public int deleteUser(int userId) {
         int deletedId = userDAO.deleteUser(userId);
-        Log.i("TAG", "Id DEletado: " + deletedId);
         return deletedId;
     }
 
