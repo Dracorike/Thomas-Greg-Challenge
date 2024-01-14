@@ -20,9 +20,10 @@
 
     <TextView
         android:id="@+id/text_choose_cpf_cnpj"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:text="@string/choose_cpf_cnpj_text"
         android:textSize="@dimen/topic_title_size"
         app:layout_constraintBottom_toTopOf="@id/radio_group_cpf_cnpj"

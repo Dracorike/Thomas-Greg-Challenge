@@ -5,4 +5,7 @@
     <dimen name="title_margin_top">10dp</dimen>
     <dimen name="text_title_size">20sp</dimen>
     <dimen name="check_success_dimension">80dp</dimen>
+    <dimen name="title_user_list_holder">16sp</dimen>
+    <dimen name="user_list_holder_elevation">8dp</dimen>
+    <dimen name="user_list_holder_radius">8dp</dimen>
 </resources>
