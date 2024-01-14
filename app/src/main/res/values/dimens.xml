@@ -8,4 +8,6 @@
     <dimen name="title_user_list_holder">16sp</dimen>
     <dimen name="user_list_holder_elevation">8dp</dimen>
     <dimen name="user_list_holder_radius">8dp</dimen>
+    <dimen name="space_user_holder_card">5dp</dimen>
+    <dimen name="minus_margin">10dp</dimen>
 </resources>

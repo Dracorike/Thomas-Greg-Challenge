@@ -49,4 +49,5 @@
     <string name="different_passwords_error_hint">As Senhas estão diferentes</string>
     <string name="invalid_password_error_hint">Senha inválida</string>
     <string name="delete_user_button_string">Excluir usuário</string>
+    <string name="no_users_message">Não foi encontrado nenhum usuário.</string>
 </resources>

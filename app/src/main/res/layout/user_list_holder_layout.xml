@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/space_user_holder_card"
     app:cardElevation="@dimen/user_list_holder_elevation"
     app:cardCornerRadius="@dimen/user_list_holder_radius">
     <androidx.constraintlayout.widget.ConstraintLayout
