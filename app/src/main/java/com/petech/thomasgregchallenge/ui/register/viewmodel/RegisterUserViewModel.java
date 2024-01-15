@@ -163,10 +163,6 @@ public class RegisterUserViewModel extends ViewModel {
         return true;
     }
 
-    public void finishViewModel() {
-        model.closeDatabase();
-    }
-
     public LiveData<RegisterUserError> getRegisterError() {
         return registerError;
     }
@@ -177,5 +173,11 @@ public class RegisterUserViewModel extends ViewModel {
 
     public LiveData<Boolean> getIsLoading() {
         return isLoading;
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        model.closeDatabase();
     }
 }

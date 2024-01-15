@@ -21,7 +21,18 @@ public class UserDetailsModelImpl implements UserDetailsModel {
     }
 
     @Override
-    public User getUser() {
+    public User getCurrentUser() {
         return selectedUser;
+    }
+
+    @Override
+    public boolean isUserNameExists(String userName) {
+        List<User> usersList = userRepository.findUserBy(User.USER_NAME_TAG, userName);
+        return usersList.size() > 0;
+    }
+
+    @Override
+    public int updateCurrentUser(User user) {
+        return userRepository.updateUser(user);
     }
 }

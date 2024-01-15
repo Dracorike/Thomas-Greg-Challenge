@@ -3,7 +3,6 @@ package com.petech.thomasgregchallenge.ui.update.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -13,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.petech.thomasgregchallenge.databinding.ActivityUserDetailsBinding;
 import com.petech.thomasgregchallenge.ui.update.view.fragment.UserDetailsFragment;
-import com.petech.thomasgregchallenge.ui.update.viewmodel.UserDetailsErrors;
 import com.petech.thomasgregchallenge.ui.update.viewmodel.UserDetailsViewModel;
 import com.petech.thomasgregchallenge.ui.update.viewmodel.UserDetailsViewModelFactory;
 import com.petech.thomasgregchallenge.utils.AppUtils;
@@ -57,13 +55,6 @@ public class UserDetailsActivity extends AppCompatActivity {
     }
 
     private void setupObservables() {
-        viewModel.getUserDetailsErrors().observe(this, new Observer<UserDetailsErrors>() {
-            @Override
-            public void onChanged(UserDetailsErrors userDetailsErrors) {
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-            }
-        });
-
         viewModel.getUserFound().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean userFound) {

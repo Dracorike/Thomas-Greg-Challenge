@@ -4,5 +4,7 @@ import com.petech.thomasgregchallenge.data.entities.User;
 
 public interface UserDetailsModel {
     void findUserById(int userId);
-    User getUser();
+    User getCurrentUser();
+    boolean isUserNameExists(String userName);
+    int updateCurrentUser(User user);
 }

@@ -20,13 +20,17 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.petech.thomasgregchallenge.R;
 import com.petech.thomasgregchallenge.data.entities.User;
 import com.petech.thomasgregchallenge.data.entities.enums.UserType;
 import com.petech.thomasgregchallenge.databinding.FragmentUserDetailsBinding;
+import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserError;
+import com.petech.thomasgregchallenge.ui.update.view.utils.ViewUtil;
 import com.petech.thomasgregchallenge.ui.update.viewmodel.UserDetailsViewModel;
+import com.petech.thomasgregchallenge.ui.update.viewmodel.UserUpdateResult;
 import com.petech.thomasgregchallenge.utils.AppUtils;
 import com.petech.thomasgregchallenge.utils.ComponentsUtils;
 import com.petech.thomasgregchallenge.utils.MaskEditUtil;
@@ -35,6 +39,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class UserDetailsFragment extends Fragment {
+    private static final String TAG = "UserDetailsFragment: ";
+    private static final String WARNING_TAG = TAG + "warning-tag";
     private User selectedUser;
 
     private FragmentUserDetailsBinding binding;
@@ -54,18 +60,23 @@ public class UserDetailsFragment extends Fragment {
         binding = FragmentUserDetailsBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(UserDetailsViewModel.class);
 
-        selectedUser = viewModel.getSelectedUser();
-        imagePath = selectedUser.getUserPhoto();
-        userType = selectedUser.getUserType();
-        cpfMask = MaskEditUtil.mask(binding.inputTextCpfCnpjUpdate, MaskEditUtil.FORMAT_CPF);
-        cnpjMask = MaskEditUtil.mask(binding.inputTextCpfCnpjUpdate, MaskEditUtil.FORMAT_CNPJ);
+        initGlobalValues();
 
         setupPickImage();
         setupInputFields();
         setupClicks();
         populateFields();
+        setupObservables();
 
         return binding.getRoot();
+    }
+
+    private void initGlobalValues() {
+        selectedUser = viewModel.getSelectedUser();
+        imagePath = selectedUser.getUserPhoto();
+        userType = selectedUser.getUserType();
+        cpfMask = MaskEditUtil.mask(binding.inputTextCpfCnpjUpdate, MaskEditUtil.FORMAT_CPF);
+        cnpjMask = MaskEditUtil.mask(binding.inputTextCpfCnpjUpdate, MaskEditUtil.FORMAT_CNPJ);
     }
 
     private void setupPickImage() {
@@ -108,21 +119,21 @@ public class UserDetailsFragment extends Fragment {
                 }
             }
         });
+
+        binding.buttonSaveUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User userUpdated = ViewUtil.getUserByView(binding, imagePath);
+                userUpdated.set_id(selectedUser.get_id());
+                userUpdated.setPassword(selectedUser.getPassword());
+
+                viewModel.saveUserDetailsChanges(userUpdated);
+            }
+        });
     }
 
     private void populateFields() {
-        if (checkReadFilesPermission()) {
-            Uri imageUri = Uri.parse(selectedUser.getUserPhoto());
-            try {
-                InputStream inputStream = requireActivity().getContentResolver().openInputStream(imageUri);
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-
-                binding.imageViewUserProfileUpdate.setImageBitmap(bitmap);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-
+        populateImageView();
         binding.inputTextFullNameUpdate.setText(selectedUser.getName());
         binding.inputTextNicknameUpdate.setText(selectedUser.getUserName());
         binding.inputTextEmailUpdate.setText(selectedUser.getEmail());
@@ -135,7 +146,6 @@ public class UserDetailsFragment extends Fragment {
             binding.radioOptionWomanUpdate.toggle();
         }
 
-        Log.i("TAG", "Selected user type: " + selectedUser.getUserType().toString());
         switch (selectedUser.getUserType()) {
             case CPF:
                 binding.radioOptionCpfUpdate.toggle();
@@ -146,6 +156,36 @@ public class UserDetailsFragment extends Fragment {
         }
 
         binding.inputTextCpfCnpjUpdate.setText(selectedUser.getDocumentNumber());
+    }
+
+    private void setupObservables() {
+        viewModel.getRegisterError().observe(getViewLifecycleOwner(), new Observer<RegisterUserError>() {
+            @Override
+            public void onChanged(RegisterUserError registerUserError) {
+                handleViewModelErrors(registerUserError);
+            }
+        });
+
+        viewModel.getUserUpdated().observe(getViewLifecycleOwner(), new Observer<UserUpdateResult>() {
+            @Override
+            public void onChanged(UserUpdateResult userUpdateResult) {
+                handleUserUpdateResult(userUpdateResult);
+            }
+        });
+    }
+
+    private void populateImageView() {
+        if (checkReadFilesPermission()) {
+            Uri imageUri = Uri.parse(selectedUser.getUserPhoto());
+            try {
+                InputStream inputStream = requireActivity().getContentResolver().openInputStream(imageUri);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+                binding.imageViewUserProfileUpdate.setImageBitmap(bitmap);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void setupInputTextToCPF() {
@@ -187,5 +227,62 @@ public class UserDetailsFragment extends Fragment {
     private boolean checkReadFilesPermission() {
         int result = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
         return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void handleViewModelErrors(RegisterUserError registerUserError) {
+        switch (registerUserError) {
+            case USER_DETAILS_EMPTY:
+            case USER_DOCUMENT_EMPTY:
+            case USER_PASSWORD_EMPTY:
+            case DATA_FIELD_EMPTY:
+                showError(getString(R.string.update_empty_field_error_message));
+                break;
+            case NAME_MUST_BE_COMPLETE:
+                showError(getString(R.string.name_must_be_complete_error_message));
+                break;
+            case EMAIL_INVALID:
+                showError(getString(R.string.email_invalid_error_message));
+                break;
+            case USER_NAME_ALREADY_EXISTS:
+                showError(getString(R.string.user_name_already_exists_error_message));
+                break;
+            case USER_UNDER_AGE:
+                showError(getString(R.string.user_under_age_update_error_message));
+                break;
+            case INVALID_CPF:
+                showError(getString(R.string.invalid_cpf_error_message));
+                break;
+            case INVALID_CNPJ:
+                showError(getString(R.string.invalid_cnpj_error_message));
+                break;
+            case INVALID_PASSWORD:
+                showError(getString(R.string.invalid_password_error_message));
+                break;
+            case UNKNOWN_ERROR:
+                showError(getString(R.string.unknown_error_message));
+                break;
+        }
+    }
+
+    private void handleUserUpdateResult(UserUpdateResult userUpdateResult) {
+        switch (userUpdateResult) {
+            case USER_UPDATED:
+                Toast.makeText(
+                        requireContext(),
+                        getString(R.string.user_update_success_message),
+                        Toast.LENGTH_LONG
+                ).show();
+                break;
+            case USER_IS_SAME:
+                showError(getString(R.string.user_is_same_message));
+                break;
+            case UPDATE_ERROR:
+                showError(getString(R.string.update_error_message));
+                break;
+        }
+    }
+
+    private void showError(String msg) {
+        AppUtils.showError(requireContext(), msg, WARNING_TAG, getChildFragmentManager());
     }
 }
