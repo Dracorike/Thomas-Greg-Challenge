@@ -1,5 +1,7 @@
 package com.petech.thomasgregchallenge.ui.register.view.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +24,9 @@ import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserError;
 import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserViewModel;
 import com.petech.thomasgregchallenge.utils.AppUtils;
 import com.petech.thomasgregchallenge.utils.ComponentsUtils;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 
 public class InputUserDataFragment extends Fragment {
@@ -80,7 +85,15 @@ public class InputUserDataFragment extends Fragment {
     private void setupPickImage() {
         pickMedia = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
             if (uri != null) {
-                handlePickedImage(uri);
+                try {
+                    handlePickedImage(uri);
+                } catch (FileNotFoundException e) {
+                    Toast.makeText(
+                            requireActivity(),
+                            getString(R.string.file_not_found_error_message),
+                            Toast.LENGTH_LONG
+                    ).show();
+                }
             } else {
                 Log.d("PhotoPicker", "No media selected");
             }
@@ -96,11 +109,16 @@ public class InputUserDataFragment extends Fragment {
         });
     }
 
-    private void handlePickedImage(Uri selectedImageUri) {
+    private void handlePickedImage(Uri selectedImageUri) throws FileNotFoundException {
         if (selectedImageUri != null) {
+            InputStream inputStream = requireActivity().getContentResolver().openInputStream(selectedImageUri);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
             imagePath = selectedImageUri.toString();
             Log.i(TAG, imagePath);
             binding.imageUserPhotoPicker.setImageURI(selectedImageUri);
+
+            viewModel.inputUserProfileBase64(AppUtils.encodeImageToBase64(bitmap));
         } else {
             Toast.makeText(getContext(), getString(R.string.no_image_selected), Toast.LENGTH_LONG).show();
         }

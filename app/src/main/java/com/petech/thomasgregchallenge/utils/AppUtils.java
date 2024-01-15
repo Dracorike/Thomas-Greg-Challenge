@@ -13,6 +13,8 @@ import com.petech.thomasgregchallenge.data.database.dao.UserDAO;
 import com.petech.thomasgregchallenge.data.database.dao.implementation.UserDAOImpl;
 import com.petech.thomasgregchallenge.data.datasource.UserRepository;
 import com.petech.thomasgregchallenge.data.datasource.implementation.UserRepositoryImpl;
+import com.petech.thomasgregchallenge.network.NetworkService;
+import com.petech.thomasgregchallenge.network.services.TestAvatyApiService;
 import com.petech.thomasgregchallenge.ui.components.warningbox.WarningBox;
 import com.petech.thomasgregchallenge.ui.components.warningbox.WarningBoxAttributes;
 import com.petech.thomasgregchallenge.ui.main.model.MainModel;
@@ -49,24 +51,24 @@ public class AppUtils {
             Pattern.compile("^(?=.*[A-Z])(?=.*\\d).{8,}$");
 
     public static RegisterUserViewModelFactory getRegisterUserViewModel(Context context) {
-        UserDAO userDAO = new UserDAOImpl(context);
-        UserRepository userRepository = new UserRepositoryImpl(userDAO);
-        RegisterUserModel userModel = new RegisterUserModelImpl(userRepository);
+        RegisterUserModel userModel = new RegisterUserModelImpl(getUserRepository(context));
         return new RegisterUserViewModelFactory(userModel);
     }
 
     public static MainViewModelFactory getMainViewModel(Context context) {
-        UserDAO userDAO = new UserDAOImpl(context);
-        UserRepository userRepository = new UserRepositoryImpl(userDAO);
-        MainModel mainModel = new MainModelImpl(userRepository);
+        MainModel mainModel = new MainModelImpl(getUserRepository(context));
         return new MainViewModelFactory(mainModel);
     }
 
     public static UserDetailsViewModelFactory getUserDetailsViewModel(Context context) {
-        UserDAO userDAO = new UserDAOImpl(context);
-        UserRepository userRepository = new UserRepositoryImpl(userDAO);
-        UserDetailsModel userDetailsModel = new UserDetailsModelImpl(userRepository);
+        UserDetailsModel userDetailsModel = new UserDetailsModelImpl(getUserRepository(context));
         return new UserDetailsViewModelFactory(userDetailsModel);
+    }
+
+    public static UserRepository getUserRepository(Context context) {
+        UserDAO userDAO = new UserDAOImpl(context);
+        TestAvatyApiService service = NetworkService.getTestAvatyApiService();
+        return new UserRepositoryImpl(userDAO, service);
     }
 
     public static void showError(Context context, String msg, String tag, FragmentManager fragmentManager) {

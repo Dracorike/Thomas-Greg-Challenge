@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="@dimen/default_margin"
-        app:hintEnabled="false"
+        app:errorEnabled="true"
         app:layout_constraintBottom_toTopOf="@id/button_next_fragment_documents"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -4,6 +4,8 @@ import com.petech.thomasgregchallenge.data.entities.User;
 
 import java.util.List;
 
+import retrofit2.Call;
+
 public interface UserRepository {
     List<User> getAllUsers();
     long createUser(User user);
@@ -11,4 +13,5 @@ public interface UserRepository {
     int deleteUser(int userId);
     List<User> findUserBy(String tagColumn, String value);
     void closeDatabase();
+    Call<Void> sendUserToApi(User user, String imageBase64);
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.petech.thomasgregchallenge.data.entities.User;
 import com.petech.thomasgregchallenge.data.entities.enums.UserType;
 import com.petech.thomasgregchallenge.ui.register.model.RegisterUserModel;
 import com.petech.thomasgregchallenge.utils.AppUtils;
@@ -27,6 +28,10 @@ public class RegisterUserViewModel extends ViewModel {
                 storeUserData(photo, name, userName, email);
             }
         }).start();
+    }
+
+    public void inputUserProfileBase64(String base64) {
+        model.inputUserProfileBase64(base64);
     }
 
     public void inputUserDetails(String address, LocalDate birthDate, Boolean gender) {
@@ -125,6 +130,7 @@ public class RegisterUserViewModel extends ViewModel {
                 try {
                     boolean isNewUserCreated = model.finishRegistration();
                     if (isNewUserCreated) {
+
                         registerUserStep.postValue(RegisterUserViewModelUtils.nextStep(registerUserStep.getValue()));
                     } else {
                         registerError.postValue(RegisterUserError.REGISTRATION_ERROR);

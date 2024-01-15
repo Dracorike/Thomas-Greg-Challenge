@@ -66,4 +66,5 @@
     <string name="change_password_string">Trocar Senha</string>
     <string name="password_change_success_message">Senha trocada com sucesso!</string>
     <string name="password_change_error_message">Houve algum erro ao tentar trocar a sua senha.</string>
+    <string name="file_not_found_error_message">A imagem não foi encontrada</string>
 </resources>

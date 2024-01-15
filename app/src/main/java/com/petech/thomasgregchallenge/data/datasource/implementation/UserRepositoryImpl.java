@@ -1,21 +1,25 @@
 package com.petech.thomasgregchallenge.data.datasource.implementation;
 
-import android.util.Log;
-
 import com.petech.thomasgregchallenge.data.database.dao.UserDAO;
 import com.petech.thomasgregchallenge.data.datasource.UserRepository;
 import com.petech.thomasgregchallenge.data.entities.User;
 import com.petech.thomasgregchallenge.data.entities.enums.UserType;
+import com.petech.thomasgregchallenge.network.dtos.UserDTO;
+import com.petech.thomasgregchallenge.network.services.TestAvatyApiService;
 import com.petech.thomasgregchallenge.utils.AppUtils;
 
+import java.time.ZoneId;
 import java.util.List;
-import java.util.function.Consumer;
+
+import retrofit2.Call;
 
 public class UserRepositoryImpl implements UserRepository {
+    private final TestAvatyApiService avatyApiService;
     private final UserDAO userDAO;
 
-    public UserRepositoryImpl(UserDAO userDAO) {
+    public UserRepositoryImpl(UserDAO userDAO, TestAvatyApiService avatyApiService) {
         this.userDAO = userDAO;
+        this.avatyApiService = avatyApiService;
     }
 
     @Override
@@ -76,5 +80,26 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void closeDatabase() {
         userDAO.closeDatabase();
+    }
+
+    @Override
+    public Call<Void> sendUserToApi(User user, String imageBase64) {
+        long birthDayTimestamp = user.getBirthDate()
+                .atStartOfDay(ZoneId.of("GMT"))
+                .toInstant()
+                .toEpochMilli();
+
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setName(user.getName());
+        userDTO.setUsername(user.getUserName());
+        userDTO.setPassword(userDTO.getPassword());
+        userDTO.setFoto(imageBase64);
+        userDTO.setEndereco(user.getAddress());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setDataNascimento(Long.toString(birthDayTimestamp));
+        userDTO.setSexo(user.isGender());
+        userDTO.setCpfCnpj(user.getDocumentNumber());
+        return avatyApiService.postUser(userDTO);
     }
 }
