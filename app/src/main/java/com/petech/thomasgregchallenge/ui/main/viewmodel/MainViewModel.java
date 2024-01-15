@@ -52,6 +52,12 @@ public class MainViewModel extends ViewModel {
         }).start();
     }
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mainModel.closeDatabase();
+    }
+
     public LiveData<List<User>> getUserList() {
         return userList;
     }

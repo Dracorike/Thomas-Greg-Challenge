@@ -80,9 +80,7 @@ public class InputUserDocumentFragment extends Fragment {
     }
 
     private void setupInputTextDocument() {
-        binding.inputTextCpfCnpjField.addTextChangedListener(
-                ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextCpfCnpjField)
-        );
+        ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextCpfCnpjField);
     }
 
     private void setupInputTextToCPF() {

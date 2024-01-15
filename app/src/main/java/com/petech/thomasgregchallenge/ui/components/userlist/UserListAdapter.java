@@ -9,15 +9,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.petech.thomasgregchallenge.R;
 import com.petech.thomasgregchallenge.data.entities.User;
-import com.petech.thomasgregchallenge.ui.components.userlist.click.UserListClickDelete;
+import com.petech.thomasgregchallenge.ui.components.userlist.click.UserListClicks;
 
 import java.util.List;
 
 public class UserListAdapter extends RecyclerView.Adapter<UserListHolder> {
     private final List<User> userList;
-    private final UserListClickDelete userListClickDelete;
+    private final UserListClicks userListClickDelete;
 
-    public UserListAdapter(List<User> userList, UserListClickDelete userListClickDelete) {
+    public UserListAdapter(List<User> userList, UserListClicks userListClickDelete) {
         this.userList = userList;
         this.userListClickDelete = userListClickDelete;
     }

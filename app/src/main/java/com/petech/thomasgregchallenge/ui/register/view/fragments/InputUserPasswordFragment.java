@@ -1,15 +1,14 @@
 package com.petech.thomasgregchallenge.ui.register.view.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.petech.thomasgregchallenge.R;
 import com.petech.thomasgregchallenge.databinding.FragmentInputUserPasswordBinding;
@@ -49,12 +48,8 @@ public class InputUserPasswordFragment extends Fragment {
     }
 
     private void setupPasswordFields() {
-        binding.inputTextUserPasswordField.addTextChangedListener(
-                ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextUserPasswordField)
-        );
-        binding.inputTextConfirmPasswordField.addTextChangedListener(
-                ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextConfirmPasswordField)
-        );
+        ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextUserPasswordField);
+        ComponentsUtils.dismissInputErrorTextWatcher(binding.inputTextConfirmPasswordField);
     }
 
     private void setupObservables() {

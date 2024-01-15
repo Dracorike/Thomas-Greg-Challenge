@@ -54,4 +54,16 @@
     <string name="warning_box_delete_user_message">Tem certeza que deseja deletar o usuário?</string>
     <string name="yes_string">Sim</string>
     <string name="no_string">Não</string>
+    <string name="save_update_button_title">Salvar Alterações</string>
+    <string name="change_password">Alterar Senha</string>
+    <string name="user_not_found_error_message">Usuário não encontrado.</string>
+    <string name="user_update_success_message">Usuário atualizado com sucesso</string>
+    <string name="user_is_same_message">Não houve alteração no usuário.</string>
+    <string name="update_error_message">Houve algum erro ao tentar atualizar o cadastro.</string>
+    <string name="update_empty_field_error_message">Preencha todos os campos para continuar a atualização dos dados.</string>
+    <string name="user_under_age_update_error_message">O usuário precisa ser maior de idade.</string>
+    <string name="password_tip_string">A senha deve conter 8 digitos, no mínimo um número e uma letra maiúscula.</string>
+    <string name="change_password_string">Trocar Senha</string>
+    <string name="password_change_success_message">Senha trocada com sucesso!</string>
+    <string name="password_change_error_message">Houve algum erro ao tentar trocar a sua senha.</string>
 </resources>

@@ -7,8 +7,8 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class ComponentsUtils {
 
-    public static TextWatcher dismissInputErrorTextWatcher(TextInputEditText editText) {
-        return new TextWatcher() {
+    public static void dismissInputErrorTextWatcher(TextInputEditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -23,10 +23,10 @@ public class ComponentsUtils {
             public void afterTextChanged(Editable s) {
                 editText.setError(null);
             }
-        };
+        });
     }
 
-    public static void validateIfIsEmptyTextWatcher(TextInputEditText editText, String errorMsg){
+    public static void validateIfIsEmptyTextWatcher(TextInputEditText editText, String errorMsg) {
         if (editText.getText().toString().isEmpty()) {
             editText.setError(errorMsg);
         }
