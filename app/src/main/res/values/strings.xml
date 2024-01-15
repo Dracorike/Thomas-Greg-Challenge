@@ -62,4 +62,8 @@
     <string name="update_error_message">Houve algum erro ao tentar atualizar o cadastro.</string>
     <string name="update_empty_field_error_message">Preencha todos os campos para continuar a atualização dos dados.</string>
     <string name="user_under_age_update_error_message">O usuário precisa ser maior de idade.</string>
+    <string name="password_tip_string">A senha deve conter 8 digitos, no mínimo um número e uma letra maiúscula.</string>
+    <string name="change_password_string">Trocar Senha</string>
+    <string name="password_change_success_message">Senha trocada com sucesso!</string>
+    <string name="password_change_error_message">Houve algum erro ao tentar trocar a sua senha.</string>
 </resources>

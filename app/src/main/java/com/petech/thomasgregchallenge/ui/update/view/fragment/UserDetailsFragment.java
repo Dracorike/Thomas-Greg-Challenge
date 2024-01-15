@@ -130,6 +130,13 @@ public class UserDetailsFragment extends Fragment {
                 viewModel.saveUserDetailsChanges(userUpdated);
             }
         });
+
+        binding.buttonChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewModel.switchPageToChangePassword();
+            }
+        });
     }
 
     private void populateFields() {

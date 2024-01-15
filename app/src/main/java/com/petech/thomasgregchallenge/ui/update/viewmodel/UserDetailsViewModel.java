@@ -6,13 +6,15 @@ import androidx.lifecycle.ViewModel;
 
 import com.petech.thomasgregchallenge.data.entities.User;
 import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserError;
+import com.petech.thomasgregchallenge.ui.register.viewmodel.RegisterUserViewModelUtils;
 import com.petech.thomasgregchallenge.ui.update.model.UserDetailsModel;
 import com.petech.thomasgregchallenge.utils.AppUtils;
 
 public class UserDetailsViewModel extends ViewModel {
     private final MutableLiveData<RegisterUserError> registerError = new MutableLiveData<>();
-    private MutableLiveData<Boolean> userFound = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> userFound = new MutableLiveData<>();
     private final MutableLiveData<UserUpdateResult> userUpdated = new MutableLiveData<>();
+    private final MutableLiveData<CurrentUserDetailsPage> currentPage = new MutableLiveData<>();
     private final UserDetailsModel userDetailsModel;
 
     public UserDetailsViewModel(UserDetailsModel userDetailsModel) {
@@ -50,6 +52,45 @@ public class UserDetailsViewModel extends ViewModel {
                 }
             }
         }).start();
+    }
+
+    public void changePassword(String password, String confirmPassword) {
+        if (RegisterUserViewModelUtils.userPasswordIsNull(password, confirmPassword)) {
+            registerError.postValue(RegisterUserError.USER_PASSWORD_EMPTY);
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            registerError.postValue(RegisterUserError.PASSWORD_DONT_MATCHES);
+            return;
+        }
+
+        if (!AppUtils.VALID_PASSWORD.matcher(password).matches()) {
+            registerError.postValue(RegisterUserError.INVALID_PASSWORD);
+            return;
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    int rowsUpdated = userDetailsModel.changeUserPassword(password);
+
+                    if (rowsUpdated > 0) {
+                        userUpdated.postValue(UserUpdateResult.USER_UPDATED);
+                    } else {
+                        userUpdated.postValue(UserUpdateResult.UPDATE_ERROR);
+                    }
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                    userUpdated.postValue(UserUpdateResult.UPDATE_ERROR);
+                }
+            }
+        }).start();
+    }
+
+    public void switchPageToChangePassword() {
+        currentPage.postValue(CurrentUserDetailsPage.CHANGE_PASSWORD_PAGE);
     }
 
     private boolean validateInputUserData(User user) {
@@ -109,5 +150,9 @@ public class UserDetailsViewModel extends ViewModel {
 
     public LiveData<Boolean> getUserFound() {
         return userFound;
+    }
+
+    public LiveData<CurrentUserDetailsPage> getCurrentPage() {
+        return currentPage;
     }
 }

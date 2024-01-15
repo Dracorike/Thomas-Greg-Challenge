@@ -35,4 +35,10 @@ public class UserDetailsModelImpl implements UserDetailsModel {
     public int updateCurrentUser(User user) {
         return userRepository.updateUser(user);
     }
+
+    @Override
+    public int changeUserPassword(String password) {
+        selectedUser.setPassword(password);
+        return userRepository.updateUser(selectedUser);
+    }
 }

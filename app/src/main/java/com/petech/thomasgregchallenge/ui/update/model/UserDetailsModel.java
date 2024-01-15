@@ -7,4 +7,5 @@ public interface UserDetailsModel {
     User getCurrentUser();
     boolean isUserNameExists(String userName);
     int updateCurrentUser(User user);
+    int changeUserPassword(String password);
 }

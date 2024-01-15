@@ -11,7 +11,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.petech.thomasgregchallenge.databinding.ActivityUserDetailsBinding;
+import com.petech.thomasgregchallenge.ui.update.view.fragment.ChangePasswordFragment;
 import com.petech.thomasgregchallenge.ui.update.view.fragment.UserDetailsFragment;
+import com.petech.thomasgregchallenge.ui.update.viewmodel.CurrentUserDetailsPage;
 import com.petech.thomasgregchallenge.ui.update.viewmodel.UserDetailsViewModel;
 import com.petech.thomasgregchallenge.ui.update.viewmodel.UserDetailsViewModelFactory;
 import com.petech.thomasgregchallenge.utils.AppUtils;
@@ -63,11 +65,29 @@ public class UserDetailsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        viewModel.getCurrentPage().observe(this, new Observer<CurrentUserDetailsPage>() {
+            @Override
+            public void onChanged(CurrentUserDetailsPage currentUserDetailsPage) {
+                switchFragmentPage(currentUserDetailsPage);
+            }
+        });
     }
 
     private void placeFragmentOnFrame(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(binding.frameFragmentContainer.getId(), fragment);
         transaction.commit();
+    }
+
+    private void switchFragmentPage(CurrentUserDetailsPage currentPage) {
+        switch (currentPage) {
+            case USER_DETAILS_PAGE:
+                placeFragmentOnFrame(new UserDetailsFragment());
+                break;
+            case CHANGE_PASSWORD_PAGE:
+                placeFragmentOnFrame(new ChangePasswordFragment());
+                break;
+        }
     }
 }
