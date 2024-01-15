@@ -84,3 +84,33 @@ O aplicativo foi separado em 3 telas: Main, Cadastro de usuário e Detalhes do u
   dados amostra.
   Para mudar a senha do usuário, foi separado um botão no final da tela que direciona o usuário para
   a mudança da senha, onde o usuário terá que informar uma nova senha para ser registrada.
+
+## Instalação do aplicativo
+  Para instalar o aplicativo será necessário:
+  - Android Studio
+  - Device Android
+  - Git
+
+### Passo a passo(Passo a passo será feito usando Windows)
+- Primeiramente, baixe o [android studio](https://developer.android.com/studio?gclid=CjwKCAiAzJOtBhALEiwAtwj8trL3dX_TkcaDwN7YfQzMVlc6Ioz6T0oK8n-SFmjogyliU9G_Cwgo_RoCSPYQAvD_BwE&gclsrc=aw.ds),
+faça toda a configuração da IDE.
+- Instale o [Git](https://git-scm.com/download/win) na sua máquina.
+- Em seguida, faça um clone do repositório com o seguinte comando:
+```shell
+    git clone https://github.com/Dracorike/Thomas-Greg-Challenge.git
+```
+- Quando o projeto tiver sido baixado na sua máquina, agora será preciso que você tenha um dispositivo
+android em mãos, ou sua máquina tenha pelo menos 8GB de ram e um bom processador:  
+  - Se Optar para usar um device virtual, procure a aba "Device Manager" no toolbar vertical que se encontra
+  no lado direito da tela na sua IDE, ao abrir a aba encontrará um botão escrito "Create Device",
+  clique nele, faça um device de sua preferência, execute o emulador que você acabou de criar.  
+  Ao terminar de iniciar o emulador, abra o Android Studio e pressione "shift+F10". Pronto, o aplicativo 
+  será instalado no seu emulador e rodará assim que estiver pronto.
+  - Caso opte usar o device físico, primeiramente é necessário iniciar o "Modo desenvolvedor" no seu celular,
+  para isso, procure como fazer isso no modelo do seu dispositivo, mas por padrão você deve clicar sete vezes na
+  opção “Número da versão”, “Versão da MIUI” ou “Número de compilação” (dependendo do celular). Ao habilitar
+  o modo desenvolvedor no seu celular, agora você deve procurar nas configurações a opção "Opções de Desenvolvedor",
+  e nessa tela, na sessão debug, habilitar o campo "USB debugging".  
+  Após isso, será preciso apenas conectar o dispositivo no computador com um cabo USB, esperar que o Android Studio
+  reconheça seu dispositivo, clicar em "shift+F10", esperar o build do aplicativo e pronto, quando o aplicativo
+  estiver pronto, o Android Studio irá abrir o aplicativo no seu celular.
